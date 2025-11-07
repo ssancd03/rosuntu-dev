@@ -1,112 +1,178 @@
-#!/usr/bin/env bash
-set -e
 
-GREEN='\033[1;32m'
-BLUE='\033[1;34m'
-YELLOW='\033[1;33m'
-CYAN='\033[1;36m'
-RESET='\033[0m'
+#!/bin/bash
+# set -e
+##################################################################################################################################
+# Author    : Erik Dubois
+# Website   : https://www.erikdubois.be
+# Youtube   : https://youtube.com/erikdubois
+##################################################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################################
+#tput setaf 0 = black
+#tput setaf 1 = red
+#tput setaf 2 = green
+#tput setaf 3 = yellow
+#tput setaf 4 = dark blue
+#tput setaf 5 = purple
+#tput setaf 6 = cyan
+#tput setaf 7 = gray
+#tput setaf 8 = light blue
+##################################################################################################################################
 
-echo -e "${GREEN}========================${RESET}"
-echo -e "${GREEN}   Update and Upgrade   ${RESET}"
-echo -e "${GREEN}========================${RESET}"
-apt update && apt upgrade -y
+installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
 
-echo -e "${BLUE}========================${RESET}"
-echo -e "${BLUE} Installing ROS 2 Jazzy ${RESET}"
-echo -e "${BLUE}========================${RESET}"
-apt install software-properties-common -y
-add-apt-repository universe -y
-apt update && apt install curl -y
-curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list
-wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list
-apt update
-apt install -y ros-jazzy-desktop ros-jazzy-ros-gz gz-harmonic
+##################################################################################################################################
 
-echo -e "${YELLOW}================================${RESET}"
-echo -e "${YELLOW} Installing GNOME Tools and Git ${RESET}"
-echo -e "${YELLOW}================================${RESET}"
-apt install gnome-control-center git -y
+if [ "$DEBUG" = true ]; then
+    echo
+    echo "------------------------------------------------------------"
+    echo "Running $(basename $0)"
+    echo "------------------------------------------------------------"
+    echo
+    echo "Debug mode is on. Press Enter to continue..."
+    read dummy
+    echo
+fi
 
-echo -e "${BLUE}========================${RESET}"
-echo -e "${BLUE}  Installing Kernel     ${RESET}"
-echo -e "${BLUE}========================${RESET}"
-apt install -y linux-generic
-update-initramfs -c -k all
+##################################################################################################################################
 
-echo -e "${CYAN}========================${RESET}"
-echo -e "${CYAN}  Installing VSCode     ${RESET}"
-echo -e "${CYAN}========================${RESET}"
-apt install -y apt-transport-https wget
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list
-apt update
-apt install -y code
+echo
+tput setaf 2
+echo "########################################################################"
+echo "###### Installing packages from PPA"
+echo "########################################################################"
+tput sgr0
+echo
 
-echo -e "${GREEN}========================${RESET}"
-echo -e "${GREEN}  Installing Chrome     ${RESET}"
-echo -e "${GREEN}========================${RESET}"
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-apt update
-apt install -y google-chrome-stable
+echo "###### Removing the following packages"
 
-echo -e "${BLUE}========================${RESET}"
-echo -e "${BLUE}  Installing Docker     ${RESET}"
-echo -e "${BLUE}========================${RESET}"
-apt install -y ca-certificates curl
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt update
-apt install docker-ce -y
-groupmod -g 1000 docker
+sudo snap remove firefox
 
-echo -e "${YELLOW}========================${RESET}"
-echo -e "${YELLOW}  Preparing Plymouth    ${RESET}"
-echo -e "${YELLOW}========================${RESET}"
-mkdir -p /usr/share/plymouth/themes/rosuntu
-cp plymouth/*.png /usr/share/plymouth/themes/rosuntu/
-cp plymouth/rosuntu.script /usr/share/plymouth/themes/rosuntu/
-cp plymouth/rosuntu.plymouth /usr/share/plymouth/themes/rosuntu/
-update-alternatives --install "/usr/share/plymouth/themes/default.plymouth" "default.plymouth" "/usr/share/plymouth/themes/rosuntu/rosuntu.plymouth" 160
+echo
+echo "########################################################################"
+echo "###### Sublime-text"
+echo "########################################################################"
+echo
 
-echo -e "${CYAN}========================${RESET}"
-echo -e "${CYAN}  Setting Login Screen  ${RESET}"
-echo -e "${CYAN}========================${RESET}"
-cp logo/ROSuntu_logo-small.png /usr/share/pixmaps/ubuntu-logo.png
-cp logo/ROSuntu_logo.png /usr/share/pixmaps/ubuntu-logo-text.png
+# https://www.sublimetext.com/docs/linux_repositories.html
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt update
+sudo apt install sublime-text
 
-echo -e "${GREEN}================================${RESET}"
-echo -e "${GREEN}Configuring Installer Slideshow ${RESET}"
-echo -e "${GREEN}================================${RESET}"
-rm -rf /usr/share/desktop-provision/slides
-mkdir -p /usr/share/desktop-provision/slides
-cp -r slides/* /usr/share/desktop-provision/slides/
+echo
+echo "########################################################################"
+echo "###### Fastfetch"
+echo "########################################################################"
+echo
 
-echo -e "${GREEN}========================${RESET}"
-echo -e "${GREEN}  Preparing Wallpapers  ${RESET}"
-echo -e "${GREEN}========================${RESET}"
-mkdir -p /usr/share/backgrounds/rosuntu
-cp wallpaper/*.png /usr/share/backgrounds/rosuntu/
-cp wallpaper/rosuntu-wallpapers.xml /usr/share/gnome-background-properties/rosuntu-wallpapers.xml
+sudo add-apt-repository ppa:zhangsongcui3371/fastfetch -y
+sudo apt update
+sudo apt install -y fastfetch
 
-echo -e "${YELLOW}========================${RESET}"
-echo -e "${YELLOW} Configuring Defaults   ${RESET}"
-echo -e "${YELLOW}========================${RESET}"
-cp conf/90_ubuntu-settings.gschema.override /usr/share/glib-2.0/schemas/
-glib-compile-schemas /usr/share/glib-2.0/schemas
-mkdir -p /etc/dconf/profile
-cp conf/dconf-profile-user /etc/dconf/profile/user
-mkdir -p /etc/dconf/db/local.d
-cp conf/00-favorite-apps /etc/dconf/db/local.d/00-favorite-apps
-cp conf/01-background /etc/dconf/db/local.d/01-background
-dconf update
+echo
+echo "########################################################################"
+echo "###### Vivaldi"
+echo "########################################################################"
+echo
 
-echo -e "${CYAN}========================${RESET}"
-echo -e "${CYAN} Configuring .bashrc    ${RESET}"
-echo -e "${CYAN}========================${RESET}"
-echo "source /opt/ros/jazzy/setup.bash" >> /etc/skel/.bashrc
+wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor | sudo dd of=/usr/share/keyrings/vivaldi-browser.gpg
+echo "deb [signed-by=/usr/share/keyrings/vivaldi-browser.gpg arch=$(dpkg --print-architecture)] https://repo.vivaldi.com/archive/deb/ stable main" | sudo dd of=/etc/apt/sources.list.d/vivaldi-archive.list
+sudo apt update && sudo apt install vivaldi-stable
+
+echo
+echo "########################################################################"
+echo "###### Brave"
+echo "########################################################################"
+echo
+
+sudo apt install curl -y
+
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+sudo apt update
+
+sudo apt install brave-browser -y
+
+echo
+echo "########################################################################"
+echo "###### Code"
+echo "########################################################################"
+echo
+
+sudo apt-get install wget gpg -y
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+rm -f packages.microsoft.gpg
+
+sudo apt install -y apt-transport-https
+sudo apt update
+sudo apt install -y code # or code-insiders
+
+
+echo
+echo "########################################################################"
+echo "###### Firefox"
+echo "########################################################################"
+echo
+
+wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+
+echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
+sudo apt update
+sudo apt install -y firefox
+
+echo
+echo "########################################################################"
+echo "###### Chromium"
+echo "########################################################################"
+echo
+
+sudo add-apt-repository ppa:xtradeb/apps -y
+sudo apt update
+sudo apt install -y chromium
+
+echo
+echo "########################################################################"
+echo "###### Discord"
+echo "########################################################################"
+echo
+
+wget -qO-  https://palfrey.github.io/discord-apt/discord-apt.gpg.asc | sudo tee /etc/apt/trusted.gpg.d/discord-apt.gpg.asc > /dev/null
+echo "deb https://palfrey.github.io/discord-apt/debian/ ./" | sudo tee /etc/apt/sources.list.d/discord.list > /dev/null
+sudo apt update
+sudo apt install -y discord
+
+echo
+echo "########################################################################"
+echo "###### Anydesk"
+echo "########################################################################"
+echo
+wget -qO-  https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo tee /etc/apt/trusted.gpg.d/anydesk.gpg.asc > /dev/null
+sudo sh -c 'echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list'
+sudo apt update
+sudo apt install -y anydesk
+
+echo
+echo "########################################################################"
+echo "###### Opera"
+echo "########################################################################"
+echo
+# https://deb.opera.com/manual.html
+wget -qO- https://deb.opera.com/archive.key | gpg --dearmor | sudo dd of=/usr/share/keyrings/opera-browser.gpg
+echo "deb [signed-by=/usr/share/keyrings/opera-browser.gpg] https://deb.opera.com/opera-stable/ stable non-free" | sudo dd of=/etc/apt/sources.list.d/opera-stable.list
+sudo apt update
+sudo apt install opera-stable -y
+
+echo
+tput setaf 6
+echo "########################################################################"
+echo "###### Packages local install done"
+echo "########################################################################"
+tput sgr0
+echo
