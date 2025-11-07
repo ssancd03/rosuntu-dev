@@ -2,9 +2,18 @@
 #!/bin/bash
 # set -e
 
-echo -e "${GREEN}========================${RESET}"
-echo -e "${GREEN}  Installing Chrome     ${RESET}"
-echo -e "${GREEN}========================${RESET}"
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+RESET='\033[0m'
+
+echo
+echo -e "${CYAN}========================================${RESET}"
+echo -e "${CYAN}  Installing Visual Studio Code${RESET}"
+echo -e "${CYAN}========================================${RESET}"
+echo
 
 sudo apt-get install wget gpg -y
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -16,9 +25,11 @@ sudo apt install -y apt-transport-https
 sudo apt update
 sudo apt install -y code 
 
-echo -e "${GREEN}========================${RESET}"
-echo -e "${GREEN}  Installing Chrome     ${RESET}"
-echo -e "${GREEN}========================${RESET}"
+echo
+echo -e "${GREEN}========================================${RESET}"
+echo -e "${GREEN}  Installing Google Chrome${RESET}"
+echo -e "${GREEN}========================================${RESET}"
+echo
 
 wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > google-chrome.gpg
 sudo install -D -o root -g root -m 644 google-chrome.gpg /etc/apt/keyrings/google-chrome.gpg
@@ -28,15 +39,19 @@ rm -f google-chrome.gpg
 sudo apt update
 sudo apt install -y google-chrome-stable
 
-echo -e "${YELLOW}================================${RESET}"
-echo -e "${YELLOW} Installing GNOME Tools and Git ${RESET}"
-echo -e "${YELLOW}================================${RESET}"
+echo
+echo -e "${YELLOW}========================================${RESET}"
+echo -e "${YELLOW}  Installing GNOME Control Center & Git${RESET}"
+echo -e "${YELLOW}========================================${RESET}"
+echo
 
 sudo apt install -y gnome-control-center git
 
-echo -e "${BLUE}========================${RESET}"
-echo -e "${BLUE}  Installing Docker     ${RESET}"
-echo -e "${BLUE}========================${RESET}"
+echo
+echo -e "${BLUE}========================================${RESET}"
+echo -e "${BLUE}  Installing Docker CE${RESET}"
+echo -e "${BLUE}========================================${RESET}"
+echo
 sudo apt install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o docker.asc
@@ -48,9 +63,11 @@ sudo apt update
 sudo apt install -y docker-ce
 sudo groupmod -g 1000 docker
 
-echo -e "${BLUE}========================${RESET}"
-echo -e "${BLUE} Installing ROS 2 Jazzy ${RESET}"
-echo -e "${BLUE}========================${RESET}"
+echo
+echo -e "${MAGENTA}========================================${RESET}"
+echo -e "${MAGENTA}  Installing ROS 2 Jazzy & Gazebo Harmonic${RESET}"
+echo -e "${MAGENTA}========================================${RESET}"
+echo
 sudo apt install -y software-properties-common curl
 sudo add-apt-repository universe -y
 sudo apt update
