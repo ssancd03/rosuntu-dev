@@ -87,28 +87,28 @@ rm -f gazebo-keyring.gpg
 sudo apt update
 sudo apt install -y ros-jazzy-desktop ros-jazzy-ros-gz gz-harmonic
 
-echo
-echo -e "${RED}========================================${RESET}"
-echo -e "${RED}  Setting Login Screen${RESET}"
-echo -e "${RED}========================================${RESET}"
-echo
-cp logo/ROSuntu_logo-small.png /usr/share/pixmaps/ubuntu-logo.png
-cp logo/ROSuntu_logo.png /usr/share/pixmaps/ubuntu-logo-text.png
+# echo
+# echo -e "${RED}========================================${RESET}"
+# echo -e "${RED}  Setting Login Screen${RESET}"
+# echo -e "${RED}========================================${RESET}"
+# echo
+# cp logo/ROSuntu_logo-small.png /usr/share/pixmaps/ubuntu-logo.png
+# cp logo/ROSuntu_logo.png /usr/share/pixmaps/ubuntu-logo-text.png
 
-echo
-echo -e "${WHITE}========================================${RESET}"
-echo -e "${WHITE}  Configuring Installer Slideshow${RESET}"
-echo -e "${WHITE}========================================${RESET}"
-echo
-rm -rf /usr/share/desktop-provision/slides
-mkdir -p /usr/share/desktop-provision/slides
-cp -r slides/* /usr/share/desktop-provision/slides/
+# echo
+# echo -e "${WHITE}========================================${RESET}"
+# echo -e "${WHITE}  Configuring Installer Slideshow${RESET}"
+# echo -e "${WHITE}========================================${RESET}"
+# echo
+# rm -rf /usr/share/desktop-provision/slides
+# mkdir -p /usr/share/desktop-provision/slides
+# cp -r slides/* /usr/share/desktop-provision/slides/
 
-echo
-echo -e "${CYAN}========================================${RESET}"
-echo -e "${CYAN}  Preparing Wallpapers${RESET}"
-echo -e "${CYAN}========================================${RESET}"
-echo
-mkdir -p /usr/share/backgrounds/rosuntu
-cp wallpaper/*.png /usr/share/backgrounds/rosuntu/
-cp wallpaper/rosuntu-wallpapers.xml /usr/share/gnome-background-properties/rosuntu-wallpapers.xml
+# echo
+# echo -e "${CYAN}========================================${RESET}"
+# echo -e "${CYAN}  Preparing Wallpapers${RESET}"
+# echo -e "${CYAN}========================================${RESET}"
+# echo
+# mkdir -p /usr/share/backgrounds/rosuntu
+# cp wallpaper/*.png /usr/share/backgrounds/rosuntu/
+# cp wallpaper/rosuntu-wallpapers.xml /usr/share/gnome-background-properties/rosuntu-wallpapers.xml
