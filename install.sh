@@ -65,27 +65,27 @@ sudo apt install -y gnome-control-center git
 # sudo apt install -y docker-ce
 # sudo groupmod -g 1000 docker
 
-# echo
-# echo -e "${MAGENTA}========================================${RESET}"
-# echo -e "${MAGENTA}  Installing ROS 2 Jazzy & Gazebo Harmonic${RESET}"
-# echo -e "${MAGENTA}========================================${RESET}"
-# echo
-# sudo apt install -y software-properties-common curl
-# sudo add-apt-repository universe -y
-# sudo apt update
+echo
+echo -e "${MAGENTA}========================================${RESET}"
+echo -e "${MAGENTA}  Installing ROS 2 Jazzy & Gazebo Harmonic${RESET}"
+echo -e "${MAGENTA}========================================${RESET}"
+echo
+sudo apt install -y software-properties-common curl
+sudo add-apt-repository universe -y
+sudo apt update
 
-# curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o ros-archive-keyring.gpg
-# sudo install -D -o root -g root -m 644 ros-archive-keyring.gpg /usr/share/keyrings/ros-archive-keyring.gpg
-# echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-# rm -f ros-archive-keyring.gpg
+curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o ros-archive-keyring.gpg
+sudo install -D -o root -g root -m 644 ros-archive-keyring.gpg /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+rm -f ros-archive-keyring.gpg
 
-# wget -qO- https://packages.osrfoundation.org/gazebo.gpg | gpg --dearmor > gazebo-keyring.gpg
-# sudo install -D -o root -g root -m 644 gazebo-keyring.gpg /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-# echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-# rm -f gazebo-keyring.gpg
+wget -qO- https://packages.osrfoundation.org/gazebo.gpg | gpg --dearmor > gazebo-keyring.gpg
+sudo install -D -o root -g root -m 644 gazebo-keyring.gpg /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+rm -f gazebo-keyring.gpg
 
-# sudo apt update
-# sudo apt install -y ros-jazzy-desktop ros-jazzy-ros-gz gz-harmonic
+sudo apt update
+sudo apt install -y ros-jazzy-desktop ros-jazzy-ros-gz gz-harmonic
 
 echo
 echo -e "${RED}========================================${RESET}"
