@@ -112,3 +112,35 @@ echo
 mkdir -p /usr/share/backgrounds/rosuntu
 cp wallpaper/*.png /usr/share/backgrounds/rosuntu/
 cp wallpaper/rosuntu-wallpapers.xml /usr/share/gnome-background-properties/rosuntu-wallpapers.xml
+
+echo
+echo -e "${YELLOW}========================================${RESET}"
+echo -e "${YELLOW}  Preparing Plymouth${RESET}"
+echo -e "${YELLOW}========================================${RESET}"
+echo
+mkdir -p /usr/share/plymouth/themes/rosuntu
+cp plymouth/*.png /usr/share/plymouth/themes/rosuntu/
+cp plymouth/rosuntu.script /usr/share/plymouth/themes/rosuntu/
+cp plymouth/rosuntu.plymouth /usr/share/plymouth/themes/rosuntu/
+update-alternatives --install "/usr/share/plymouth/themes/default.plymouth" "default.plymouth" "/usr/share/plymouth/themes/rosuntu/rosuntu.plymouth" 160
+
+echo
+echo -e "${BLUE}========================================${RESET}"
+echo -e "${BLUE}  Configuring Defaults${RESET}"
+echo -e "${BLUE}========================================${RESET}"
+echo
+cp conf/90_ubuntu-settings.gschema.override /usr/share/glib-2.0/schemas/
+glib-compile-schemas /usr/share/glib-2.0/schemas
+mkdir -p /etc/dconf/profile
+cp conf/dconf-profile-user /etc/dconf/profile/user
+mkdir -p /etc/dconf/db/local.d
+cp conf/00-favorite-apps /etc/dconf/db/local.d/00-favorite-apps
+cp conf/01-background /etc/dconf/db/local.d/01-background
+dconf update
+
+echo
+echo -e "${GREEN}========================================${RESET}"
+echo -e "${GREEN}  Configuring .bashrc${RESET}"
+echo -e "${GREEN}========================================${RESET}"
+echo
+echo "source /opt/ros/jazzy/setup.bash" >> /etc/skel/.bashrc
