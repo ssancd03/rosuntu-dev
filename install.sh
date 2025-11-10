@@ -51,7 +51,7 @@ sudo apt install -y gnome-control-center git
 
 echo
 echo -e "${BLUE}========================================${RESET}"
-echo -e "${BLUE}  Installing Docker CE${RESET}"
+echo -e "${BLUE}  Installing Docker ${RESET}"
 echo -e "${BLUE}========================================${RESET}"
 echo
 sudo apt install -y ca-certificates curl
