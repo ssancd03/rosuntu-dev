@@ -49,21 +49,21 @@ echo
 
 sudo apt install -y gnome-control-center git
 
-echo
-echo -e "${BLUE}========================================${RESET}"
-echo -e "${BLUE}  Installing Docker ${RESET}"
-echo -e "${BLUE}========================================${RESET}"
-echo
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o docker.asc
-sudo install -D -o root -g root -m 644 docker.asc /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-rm -f docker.asc
+# echo
+# echo -e "${BLUE}========================================${RESET}"
+# echo -e "${BLUE}  Installing Docker ${RESET}"
+# echo -e "${BLUE}========================================${RESET}"
+# echo
+# sudo apt install -y ca-certificates curl
+# sudo install -m 0755 -d /etc/apt/keyrings
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o docker.asc
+# sudo install -D -o root -g root -m 644 docker.asc /etc/apt/keyrings/docker.asc
+# echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# rm -f docker.asc
 
-sudo apt update
-sudo apt install -y docker-ce
-sudo groupmod -g 1000 docker
+# sudo apt update
+# sudo apt install -y docker-ce
+# sudo groupmod -g 1000 docker
 
 # echo
 # echo -e "${MAGENTA}========================================${RESET}"
